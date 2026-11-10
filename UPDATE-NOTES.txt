@@ -1,0 +1,44 @@
+WEBHEAD BUSINESS WEBSITE UPDATE — PATCH INSTRUCTIONS
+
+This is an update-only patch for the Webhead project you uploaded.
+It is designed to preserve the existing SprayHero animation, logo video, dark graffiti-inspired visual identity, purple/pink palette, typography, project-card motion, and current routing.
+
+HOW TO APPLY
+1. Back up your current project.
+2. Extract this ZIP.
+3. Copy the folders into the root of your existing Webhead project, keeping the same paths.
+4. Overwrite the listed existing files and add the new BusinessSolutions.jsx file.
+5. Install dependencies only if your environment needs them.
+6. Run the frontend build from client/ and the server as you normally do.
+7. Deploy both frontend and backend because the contact API now recognises the expanded service types.
+
+WHAT CHANGED
+- Homepage positioning now combines the personal portfolio identity with digital product and business solution services.
+- Added an industry solutions section for retail/merchandise, cloud kitchens/restaurants, bakeries/home bakers, salons/beauty studios, schools/coaching centres, and startups/teams.
+- Industry cards expand to show example features and pass a pre-filled project brief to the existing contact form.
+- Service catalogue now covers portfolios, business websites, task management, personal/team chat, EdTech, e-commerce, custom business applications, and data/automation.
+- Pricing page copy explains custom quotations and project scoping rather than publishing invented fixed prices.
+- Server-side service labels match the website's service options.
+- Existing featured project previews, project case studies, hosted URLs, admin area, Supabase schema, and core animations are retained.
+
+FILES
+NEW:
+- client/src/components/BusinessSolutions.jsx
+
+UPDATED:
+- client/src/pages/Home.jsx
+- client/src/data/services.js
+- client/src/data/site.js
+- client/src/components/ContactForm.jsx
+- client/src/components/Layout.jsx
+- client/src/pages/Pricing.jsx
+- client/src/pages/Work.jsx
+- client/src/styles.css
+- server/src/schemas.js
+- server/src/emails/templates.js
+
+DATABASE
+No database migration is required. The existing contact_submissions.service column is text, and this patch only expands the accepted service values.
+
+VALIDATION
+JS/JSX syntax checks passed. A complete Vite production build could not be completed in this environment because the uploaded node_modules tree does not contain Rollup's Linux optional binary package. Run npm install in your own deployment environment before building if Vite reports that dependency error.

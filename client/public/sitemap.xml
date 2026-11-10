@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- [PLACEHOLDER] Replace yourdomain.com with your real domain, and add /work/<slug> URLs as you publish case studies. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://yourdomain.com/</loc></url>
+  <url><loc>https://yourdomain.com/services/portfolios</loc></url>
+  <url><loc>https://yourdomain.com/services/task-management</loc></url>
+  <url><loc>https://yourdomain.com/services/ecommerce</loc></url>
+  <url><loc>https://yourdomain.com/services/data-pipelines</loc></url>
+  <url><loc>https://yourdomain.com/work</loc></url>
+  <url><loc>https://yourdomain.com/pricing</loc></url>
+  <url><loc>https://yourdomain.com/about</loc></url>
+  <url><loc>https://yourdomain.com/contact</loc></url>
+  <url><loc>https://yourdomain.com/privacy</loc></url>
+  <url><loc>https://yourdomain.com/terms</loc></url>
+</urlset>
