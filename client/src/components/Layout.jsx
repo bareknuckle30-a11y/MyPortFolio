@@ -27,6 +27,37 @@ function ScrollManager() {
   return null;
 }
 
+
+/** Subtle shared reveal treatment for content blocks on every route. */
+function RevealManager() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const nodes = document.querySelectorAll(
+      'main .sec, main .page-hero, main .page-section, main .contact-block, main .pipeline-spot'
+    );
+    if (!nodes.length) return undefined;
+    if (!('IntersectionObserver' in window)) {
+      nodes.forEach((node) => node.classList.add('is-visible'));
+      return undefined;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -36px 0px' });
+    nodes.forEach((node) => {
+      node.classList.add('reveal-on-scroll');
+      observer.observe(node);
+    });
+    return () => observer.disconnect();
+  }, [pathname]);
+  return null;
+}
+
 function NavItem({ to, children, onClick, className }) {
   // Hash links stay plain links so the active state only applies to real routes.
   if (to.includes('#')) {
@@ -121,6 +152,7 @@ export default function Layout() {
     <>
       <a className="skip" href="#main">Skip to content</a>
       <ScrollManager />
+      <RevealManager />
       <Header />
       <main id="main" tabIndex={-1} style={{ outline: 'none' }}>
         <Outlet />

@@ -60,11 +60,11 @@ export function useSpray({ wallRef, canvasRef, ringRef, colorRef, clearRef }) {
 
     function seed() {
       const keep = colorRef.current;
-      colorRef.current = '#b36bff';
-      spray(W * 0.16, H * 0.3, 24, 150, 1);
+      colorRef.current = '#B8BEC8';
+      spray(W * 0.16, H * 0.3, 24, 105, 1);
       addDrip(W * 0.16 - 8, H * 0.3 + 10);
       addDrip(W * 0.16 + 10, H * 0.3 + 14);
-      spray(W * 0.86, H * 0.7, 22, 130, 1);
+      spray(W * 0.86, H * 0.7, 22, 90, 1);
       addDrip(W * 0.86, H * 0.7 + 12);
       colorRef.current = keep;
     }
@@ -117,7 +117,7 @@ export function useSpray({ wallRef, canvasRef, ringRef, colorRef, clearRef }) {
       ly = py;
       inside = true;
       ring.classList.add('down');
-      spray(px, py, 38, 120, 1);
+      spray(px, py, 34, 84, 1);
       addDrip(px - 10, py);
       addDrip(px + 9, py + 6);
       addDrip(px, py + 10);
@@ -132,7 +132,7 @@ export function useSpray({ wallRef, canvasRef, ringRef, colorRef, clearRef }) {
       if (inside) {
         const sp = Math.min(speed, 40);
         speed *= 0.7;
-        spray(px, py, sp > 14 ? 9 : sp > 4 ? 13 : 18, sp > 14 ? 16 : 30, 0.9);
+        spray(px, py, sp > 14 ? 9 : sp > 4 ? 13 : 18, sp > 14 ? 10 : 18, 0.9);
         if (sp < 3) dwell++;
         else dwell = Math.max(0, dwell - 3);
         if (dwell > 38) {

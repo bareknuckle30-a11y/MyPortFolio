@@ -1,0 +1,15 @@
+Hero section update only
+
+Updated:
+- client/src/components/SprayHero.jsx
+- client/src/hooks/useSpray.js
+- client/src/styles.css
+
+Changes:
+- Refined hero surface to pearl grey/white with restrained violet accents.
+- Added a slow ambient halo and subtle logo entrance motion.
+- Restyled hero controls, colour swatches and pointer ring for the lighter palette.
+- Removed a hero illustration reference whose image asset was not present in the supplied project.
+- Reduced particle counts for a lighter spray interaction while preserving the interaction.
+
+No server, Supabase, API, authentication, or environment files were edited.

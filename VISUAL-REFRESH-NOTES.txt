@@ -1,0 +1,18 @@
+WEBHEAD VISUAL REFRESH
+
+Design updates:
+- Shifted the shared site palette to white, soft grey, charcoal and restrained violet.
+- Restyled the shared header, mobile navigation, footer, buttons, cards, forms, panels and content surfaces.
+- Refined the hero stage while preserving the existing logo video and interactive spray canvas.
+- Added a lightweight Canvas point-lattice swell inspired by ThreeUI's Tideform / Open Swell: crossed wave trains and a subtle expanding crest.
+- Added reduced-motion handling, visibility pausing, responsive canvas sizing and a capped device-pixel ratio.
+- Added a shared scroll-reveal treatment for route content.
+
+Preserved:
+- Home, Services, Work, About, Contact, Pricing, Legal and Admin route definitions.
+- Existing page components and page content.
+- Server source, Supabase client/server integration, SQL migrations and environment files.
+- Existing package manifests and lockfiles. No new package dependency was added.
+
+Implementation note:
+- The Open Swell reference describes a Three.js 0.160 point-lattice field. This project uses a lightweight 2D Canvas interpretation to avoid adding Three.js and increasing bundle/runtime cost.
