@@ -8,9 +8,18 @@ import { bySlug, PRICING } from '../data/services.js';
 export default function Service() {
   const { slug } = useParams();
   const s = bySlug(slug);
-  if (!s) return <Navigate to="/404" replace />;
-  const pricing = PRICING.find((p) => p.slug === s.slug);
-  const spot = s.spotlight;
+
+  if (!s) return <Navigate to="/" replace />;
+
+  // Keep the detail page resilient if a service record is missing an optional list.
+  const included = Array.isArray(s.included) ? s.included : [];
+  const processSteps = Array.isArray(s.process) ? s.process : [];
+  const faqItems = Array.isArray(s.faq) ? s.faq : [];
+  const spot = s.spotlight && typeof s.spotlight === 'object' ? s.spotlight : null;
+  const spotStages = Array.isArray(spot?.stages) ? spot.stages : [];
+  const spotOutcomes = Array.isArray(spot?.outcomes) ? spot.outcomes : [];
+  const pricing = Array.isArray(PRICING) ? PRICING.find((p) => p.slug === s.slug) : null;
+  const pricingTiers = Array.isArray(pricing?.tiers) ? pricing.tiers : [];
 
   return (
     <div className="shell" style={{ '--c': s.accent }}>
@@ -39,9 +48,11 @@ export default function Service() {
         </div>
         <div>
           <span className="eyebrow">What's included</span>
-          <ul className="checks" style={{ marginTop: 18 }}>
-            {s.included.map((i) => <li key={i}>{i}</li>)}
-          </ul>
+          {included.length ? (
+            <ul className="checks" style={{ marginTop: 18 }}>
+              {included.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}
+            </ul>
+          ) : <p className="muted">Details for this service are being updated.</p>}
         </div>
       </section>
 
@@ -50,52 +61,65 @@ export default function Service() {
           <div className="sec-head">
             <span className="eyebrow">How a pipeline flows</span>
             <h2 id="how-pipe">From source to dashboard.</h2>
-            <p>{spot.what}</p>
+            {spot.what ? <p>{spot.what}</p> : null}
           </div>
-          <ul className="stages" style={{ marginTop: 0 }}>
-            {spot.stages.map(([n, d]) => <li key={n}><b>{n}</b><span>{d}</span></li>)}
-          </ul>
+          {spotStages.length ? (
+            <ul className="stages" style={{ marginTop: 0 }}>
+              {spotStages.map((stage, index) => {
+                const [name, description] = Array.isArray(stage) ? stage : [stage?.name || `Stage ${index + 1}`, stage?.description || ''];
+                return <li key={`${index}-${name}`}><b>{name}</b><span>{description}</span></li>;
+              })}
+            </ul>
+          ) : null}
           <div className="split" style={{ marginTop: 28 }}>
             <div className="panel">
               <h3>Typical stack</h3>
               <p>We stay tool-agnostic and work with what you already run. Common setups:</p>
               <div className="chips" style={{ marginTop: 0 }}>
-                {['Airflow', 'Prefect', 'Dagster', 'cron', 'dbt', 'Python', 'SQL', 'Postgres', 'BigQuery', 'Snowflake', 'Metabase', 'Looker', 'Power BI'].map((t) => <span className="chip" key={t}>{t}</span>)}
+                {['Airflow', 'Prefect', 'Dagster', 'cron', 'dbt', 'Python', 'SQL', 'Postgres', 'BigQuery', 'Snowflake', 'Metabase', 'Looker', 'Power BI'].map((tool) => <span className="chip" key={tool}>{tool}</span>)}
               </div>
             </div>
             <div className="panel">
               <h3>What you get</h3>
-              <ul className="checks">{spot.outcomes.map((o) => <li key={o}>{o}</li>)}</ul>
+              {spotOutcomes.length ? <ul className="checks">{spotOutcomes.map((outcome, index) => <li key={`${index}-${outcome}`}>{outcome}</li>)}</ul> : <p className="muted">Outcomes will be confirmed in the project scope.</p>}
             </div>
           </div>
         </section>
       ) : null}
 
-      <section className="sec" aria-labelledby="proc">
-        <div className="sec-head">
-          <span className="eyebrow">Process</span>
-          <h2 id="proc">How it goes.</h2>
-        </div>
-        <ol className="steps">
-          {s.process.map(([t, d]) => <li key={t}><b>{t}</b><span>{d}</span></li>)}
-        </ol>
-      </section>
+      {processSteps.length ? (
+        <section className="sec" aria-labelledby="proc">
+          <div className="sec-head">
+            <span className="eyebrow">Process</span>
+            <h2 id="proc">How it goes.</h2>
+          </div>
+          <ol className="steps">
+            {processSteps.map((step, index) => {
+              const [title, description] = Array.isArray(step) ? step : [step?.title || `Step ${index + 1}`, step?.description || ''];
+              return <li key={`${index}-${title}`}><b>{title}</b><span>{description}</span></li>;
+            })}
+          </ol>
+        </section>
+      ) : null}
 
-      {pricing ? (
+      {pricingTiers.length ? (
         <section className="sec" aria-labelledby="plans">
           <div className="sec-head">
             <span className="eyebrow">{spot ? 'Plans' : 'Packages'}</span>
             <h2 id="plans">{spot ? 'Pick how much help you want.' : 'Packages.'}</h2>
           </div>
           <div className="tiers">
-            {pricing.tiers.map((t) => (
-              <div className="tier" key={t.name} style={{ '--c': pricing.accent }}>
-                <h4>{t.name}</h4>
-                <div className="price">{t.price}</div>
-                <div className="note">{t.note}</div>
-                <ul>{t.items.map((i) => <li key={i}>{i}</li>)}</ul>
-              </div>
-            ))}
+            {pricingTiers.map((tier) => {
+              const items = Array.isArray(tier.items) ? tier.items : [];
+              return (
+                <div className="tier" key={tier.name} style={{ '--c': pricing.accent }}>
+                  <h4>{tier.name}</h4>
+                  <div className="price">{tier.price}</div>
+                  <div className="note">{tier.note}</div>
+                  {items.length ? <ul>{items.map((item, index) => <li key={`${index}-${item}`}>{item}</li>)}</ul> : null}
+                </div>
+              );
+            })}
           </div>
         </section>
       ) : null}
@@ -105,7 +129,7 @@ export default function Service() {
           <span className="eyebrow">Questions</span>
           <h2 id="sfaq">Common questions.</h2>
         </div>
-        <Faq items={s.faq} />
+        {faqItems.length ? <Faq items={faqItems} /> : <p className="muted">Contact us if you have questions about this service.</p>}
       </section>
 
       <ContactBlock />
