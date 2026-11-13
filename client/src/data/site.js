@@ -18,6 +18,7 @@ export const NAV = [
   { to: '/pricing', label: 'Pricing' },
   { to: '/about', label: 'About' },
   { to: '/contact', label: 'Contact' },
+  { to: '/instagram-audit', label: 'Instagram Audit' },
 ];
 
 // The three phases, reused as the animated "How we work" cards.

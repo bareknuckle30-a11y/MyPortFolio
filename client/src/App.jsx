@@ -14,6 +14,7 @@ const WorkIndex = lazy(() => import('./pages/Work.jsx').then((m) => ({ default: 
 const WorkDetail = lazy(() => import('./pages/Work.jsx').then((m) => ({ default: m.WorkDetail })));
 const Privacy = lazy(() => import('./pages/Legal.jsx').then((m) => ({ default: m.Privacy })));
 const Terms = lazy(() => import('./pages/Legal.jsx').then((m) => ({ default: m.Terms })));
+const InstagramAudit = lazy(() => import('./pages/InstagramAudit.jsx'));
 
 function Loading() {
   return <div className="shell page-hero" style={{ minHeight: '40vh' }}><p className="muted" role="status">Loading…</p></div>;
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="terms" element={<Terms />} />
           <Route path="admin" element={<Admin />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="instagram-audit" element={<InstagramAudit />} />
         </Route>
       </Routes>
     </Suspense>
